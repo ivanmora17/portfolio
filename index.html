@@ -1,0 +1,691 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Iván Mora Gómez · Cybersecurity &amp; AI</title>
+<meta name="description" content="Iván Mora Gómez, Cybersecurity and AI student at the University of Málaga. Cloud security, AI security and security operations.">
+<meta property="og:title" content="Iván Mora Gómez · Cybersecurity &amp; AI">
+<meta property="og:description" content="Cybersecurity and AI student at the University of Málaga. Cloud security, AI security and security operations.">
+<meta property="og:url" content="https://ivanmorag.com/">
+<meta name="theme-color" content="#EDF0F3">
+<link rel="icon" href="logo.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta property="og:image" content="https://ivanmorag.com/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#EDF0F3;
+  --panel:#FFFFFF;
+  --ink:#14233B;
+  --ink-2:#4A5A70;
+  --line:#CBD3DD;
+  --teal:#0F7F72;
+  --teal-soft:#D5EEEA;
+  --amber:#9A5B00;
+  --amber-soft:#FBEBCD;
+  --console:#14233B;
+  --console-ink:#DCE6F0;
+  --console-dim:#8FA3BA;
+  --console-teal:#63D2C1;
+  --console-amber:#F2B84B;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 17px/1.6 "IBM Plex Sans",system-ui,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:var(--teal);text-underline-offset:3px}
+a:hover{color:var(--ink)}
+:focus-visible{outline:3px solid var(--teal);outline-offset:3px;border-radius:4px}
+.skip{position:absolute;left:-999px;top:8px;background:var(--ink);color:#fff;padding:8px 14px;border-radius:6px}
+.skip:focus{left:16px;z-index:10}
+.wrap{max-width:1120px;margin:0 auto;padding-left:24px;padding-right:24px}
+
+/* scroll progress */
+.progress{position:fixed;top:0;left:0;height:3px;width:100%;background:var(--teal);transform-origin:0 50%;transform:scaleX(0);z-index:20}
+
+/* header */
+header{position:sticky;top:0;z-index:5;background:rgba(237,240,243,.86);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:16px;height:64px}
+.logo{font:700 20px/1 "Bricolage Grotesque",sans-serif;color:var(--ink);text-decoration:none;letter-spacing:-.3px}
+.nav ul{display:flex;gap:6px;list-style:none;margin:0;padding:0}
+.nav ul a{display:block;color:var(--ink-2);text-decoration:none;font-weight:500;font-size:15px;padding:8px 12px;border-radius:999px;transition:background .2s,color .2s}
+.nav ul a:hover,.nav ul a.active{color:var(--ink);background:rgba(20,35,59,.07)}
+@media (max-width:720px){.nav ul{display:none}}
+
+/* hero */
+.hero-band{position:relative;overflow:hidden}
+#net{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.hero{position:relative;padding-top:80px;padding-bottom:96px;display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:56px;align-items:center;min-height:calc(100vh - 64px);max-height:none}
+.hero h1{font:700 clamp(46px,6.6vw,84px)/.98 "Bricolage Grotesque",sans-serif;letter-spacing:-2px;margin:0 0 24px;min-height:2em}
+.hero p.lead{font-size:20px;line-height:1.55;color:var(--ink-2);max-width:34ch;margin:0 0 32px}
+.links{display:flex;flex-wrap:wrap;gap:12px}
+.btn{position:relative;display:inline-flex;align-items:center;gap:8px;min-height:46px;padding:0 20px;border-radius:999px;font-weight:600;font-size:15px;text-decoration:none;border:1.5px solid var(--ink);color:var(--ink);background:transparent;transition:transform .2s ease,background .2s,color .2s}
+.btn svg{width:18px;height:18px}
+.btn.primary{background:var(--ink);color:#fff}
+.btn.primary:hover{background:#22385A;color:#fff}
+.btn:not(.primary):hover{background:var(--panel);color:var(--ink)}
+.btn:hover{transform:translateY(-2px)}
+.scroll-hint{position:absolute;left:50%;bottom:22px;transform:translateX(-50%);width:24px;height:38px;border:2px solid var(--ink-2);border-radius:14px;opacity:.6}
+.scroll-hint::after{content:"";position:absolute;left:50%;top:7px;width:4px;height:8px;margin-left:-2px;border-radius:2px;background:var(--ink-2);animation:wheel 1.8s ease-in-out infinite}
+@keyframes wheel{0%{opacity:0;transform:translateY(0)}30%{opacity:1}100%{opacity:0;transform:translateY(12px)}}
+
+/* hero entrance */
+.hero .lead,.hero .links{opacity:0;transform:translateY(14px);transition:opacity .7s ease,transform .7s ease}
+.hero.ready .lead{opacity:1;transform:none;transition-delay:.9s}
+.hero.ready .links{opacity:1;transform:none;transition-delay:1.1s}
+
+/* the triage console */
+.console-wrap{perspective:1200px}
+.console{position:relative;background:var(--console);color:var(--console-ink);border-radius:18px;padding:22px 22px 18px;font:400 14px/1.5 "IBM Plex Mono",monospace;box-shadow:0 40px 70px -34px rgba(20,35,59,.6);transform-style:preserve-3d;transition:transform .25s ease-out;overflow:hidden;opacity:0;translate:0 24px;animation:consoleIn .9s cubic-bezier(.2,.8,.2,1) .4s forwards}
+@keyframes consoleIn{to{opacity:1;translate:0 0}}
+.console::before{content:"";position:absolute;left:0;right:0;top:-40%;height:40%;background:linear-gradient(180deg,transparent,rgba(99,210,193,.10),transparent);animation:scan 4.5s linear infinite;pointer-events:none}
+@keyframes scan{to{top:120%}}
+.console-top{display:flex;justify-content:space-between;align-items:center;color:var(--console-dim);padding-bottom:14px;border-bottom:1px solid rgba(143,163,186,.25);margin-bottom:6px}
+.console-top b{color:var(--console-ink);font-weight:500;display:flex;align-items:center;gap:10px}
+.live{width:8px;height:8px;border-radius:50%;background:var(--console-teal);box-shadow:0 0 0 0 rgba(99,210,193,.6);animation:pulse 1.8s infinite}
+@keyframes pulse{70%{box-shadow:0 0 0 9px rgba(99,210,193,0)}100%{box-shadow:0 0 0 0 rgba(99,210,193,0)}}
+.queue{min-height:330px}
+.alert{display:grid;grid-template-columns:76px minmax(0,1fr);gap:14px;padding:13px 0;border-bottom:1px solid rgba(143,163,186,.14);animation:rowIn .45s ease both}
+.alert:last-child{border-bottom:0}
+.alert.out{animation:rowOut .4s ease forwards}
+@keyframes rowIn{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:none}}
+@keyframes rowOut{to{opacity:0;transform:translateX(30px)}}
+.sev{font-size:12px;font-weight:500;padding:2px 0;border-radius:4px;text-align:center;align-self:start;background:rgba(143,163,186,.18);color:var(--console-dim);transition:background .3s,color .3s}
+.sev.pending::after{content:"···";animation:dots 1s steps(3) infinite}
+.sev.pop{animation:pop .35s ease}
+@keyframes pop{50%{transform:scale(1.18)}}
+.sev.hi{background:var(--console-amber);color:#2B1A00}
+.sev.md{background:var(--console-teal);color:#06312B}
+.sev.lo{background:rgba(143,163,186,.28);color:var(--console-ink)}
+.alert strong{display:block;font-weight:500;color:#fff}
+.alert span.d{color:var(--console-dim)}
+.verdict{margin-top:12px;padding-top:12px;border-top:1px dashed rgba(143,163,186,.35);color:var(--console-teal);min-height:2.6em}
+.verdict::after{content:"▍";animation:blink 1.1s steps(1) infinite;margin-left:2px}
+@keyframes blink{50%{opacity:0}}
+@media (max-width:900px){.hero{grid-template-columns:1fr;padding-top:48px;padding-bottom:88px;gap:40px;min-height:0}.scroll-hint{display:none}}
+
+/* sections */
+section{padding:96px 0;border-top:1px solid var(--line)}
+.sec-head{display:grid;grid-template-columns:240px minmax(0,1fr);gap:40px}
+@media (max-width:820px){.sec-head{grid-template-columns:1fr;gap:24px}}
+h2{font:700 36px/1.1 "Bricolage Grotesque",sans-serif;letter-spacing:-.8px;margin:0}
+.sec-head>div:first-child{position:relative}
+.sticky{position:sticky;top:104px}
+h3{font:600 20px/1.3 "IBM Plex Sans",sans-serif;margin:0 0 6px}
+.prose p{margin:0 0 16px;max-width:66ch}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px 32px;margin:28px 0 0;padding:0}
+.facts div{position:relative;padding-top:12px}
+.facts div::before{content:"";position:absolute;top:0;left:0;height:2px;width:100%;background:var(--ink);transform:scaleX(0);transform-origin:0 50%;transition:transform .9s cubic-bezier(.2,.8,.2,1)}
+.facts.in div::before{transform:scaleX(1)}
+.facts.in div:nth-child(2)::before{transition-delay:.15s}.facts.in div:nth-child(3)::before{transition-delay:.3s}
+.facts dt{font-size:14px;color:var(--ink-2)}
+.facts dd{margin:2px 0 0;font-weight:500}
+
+/* photo */
+.photo{margin-top:28px;width:200px;aspect-ratio:2/3;border-radius:22px;overflow:hidden;background:var(--console);position:relative;box-shadow:0 24px 44px -24px rgba(20,35,59,.55)}
+.photo img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s ease}
+.photo:hover img{transform:scale(1.05)}
+.photo::after{content:"";position:absolute;inset:0;border-radius:22px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.12)}
+.photo.missing{display:none}
+@media (max-width:820px){.photo{width:150px;margin-top:20px}}
+
+/* projects */
+.projects{display:grid;gap:20px}
+.project{position:relative;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:28px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px 24px;overflow:hidden;transition:transform .3s ease,box-shadow .3s ease,border-color .3s}
+.project::before{content:"";position:absolute;inset:0;background:radial-gradient(380px circle at var(--mx,50%) var(--my,50%),rgba(15,127,114,.10),transparent 60%);opacity:0;transition:opacity .3s;pointer-events:none}
+.project:hover{transform:translateY(-4px);box-shadow:0 26px 44px -30px rgba(20,35,59,.45);border-color:#AFC0CF}
+.project:hover::before{opacity:1}
+.project>*{position:relative}
+.project p{margin:6px 0 14px;color:var(--ink-2);max-width:62ch}
+.status{font-size:13px;font-weight:600;padding:4px 12px;border-radius:999px;align-self:start;white-space:nowrap;display:inline-flex;align-items:center;gap:7px}
+.status.wip{background:var(--amber-soft);color:var(--amber)}
+.status.wip::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor;animation:blink 1.4s steps(1) infinite}
+.status.done{background:var(--teal-soft);color:var(--teal)}
+.tags{display:flex;flex-wrap:wrap;gap:8px;list-style:none;margin:0;padding:0}
+.tags li{font-size:13px;color:var(--ink-2);border:1px solid var(--line);border-radius:999px;padding:3px 11px}
+.empty{border:1.5px dashed var(--line);border-radius:16px;padding:24px 28px;color:var(--ink-2);margin:0}
+@media (max-width:560px){.project{grid-template-columns:1fr}.status{justify-self:start;grid-row:1}}
+
+/* timeline that draws itself */
+.timeline{position:relative;list-style:none;margin:0;padding:0}
+.timeline::before{content:"";position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--line)}
+.timeline .fill{position:absolute;left:0;top:0;width:2px;height:100%;background:var(--teal);transform-origin:50% 0;transform:scaleY(var(--p,0))}
+.timeline li{position:relative;padding:0 0 36px 30px}
+.timeline li:last-child{padding-bottom:0}
+.timeline li.fill{padding:0}.timeline li.fill::before{display:none}
+.timeline li::before{content:"";position:absolute;left:-5px;top:7px;width:12px;height:12px;border-radius:50%;background:var(--paper);border:2px solid var(--line);transition:border-color .3s,background .3s,box-shadow .3s}
+.timeline li.lit::before{border-color:var(--teal);background:var(--teal);box-shadow:0 0 0 5px var(--teal-soft)}
+.timeline time{font-size:14px;color:var(--ink-2);font-weight:500}
+.timeline p{margin:4px 0 0;color:var(--ink-2);max-width:62ch}
+.shot{margin:18px 0 0;max-width:560px}
+.shot img{display:block;width:100%;height:auto;border-radius:14px;border:1px solid var(--line);box-shadow:0 22px 40px -28px rgba(20,35,59,.5);transition:transform .5s cubic-bezier(.2,.8,.2,1)}
+.shot:hover img{transform:scale(1.015)}
+.shot figcaption{margin-top:8px;font-size:14px;color:var(--ink-2)}
+
+/* skills */
+.skillgroups{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:32px}
+.skillgroups h3{font-size:16px;color:var(--ink-2);font-weight:500;margin-bottom:10px}
+.skillgroups ul{list-style:none;margin:0;padding:0}
+.skillgroups li{position:relative;padding:8px 0;border-bottom:1px solid var(--line);font-weight:500;transition:padding .25s ease,color .25s}
+.skillgroups li::before{content:"";position:absolute;left:0;top:50%;width:0;height:2px;background:var(--teal);transition:width .25s ease}
+.skillgroups li:hover{padding-left:22px;color:var(--teal)}
+.skillgroups li:hover::before{width:14px}
+
+/* contact */
+.contact{background:var(--console);color:var(--console-ink);border-top:0;position:relative;overflow:hidden}
+.contact h2{font-size:clamp(44px,7vw,80px);letter-spacing:-2px;margin-bottom:16px;color:#fff}
+.contact p{color:var(--console-dim);max-width:52ch;margin:0 0 32px;font-size:19px}
+.contact .btn{border-color:var(--console-ink);color:var(--console-ink)}
+.contact .btn.primary{background:var(--console-teal);border-color:var(--console-teal);color:#06312B}
+.contact .btn.primary:hover{background:#86E0D2;color:#06312B}
+.contact .btn:not(.primary):hover{background:rgba(255,255,255,.08);color:#fff}
+.contact a:focus-visible{outline-color:var(--console-teal)}
+#net2{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:.55}
+.contact .wrap{position:relative}
+footer{padding:28px 0 40px;color:var(--console-dim);font-size:14px;background:var(--console);border-top:1px solid rgba(143,163,186,.2)}
+footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+
+/* reveal on scroll */
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s cubic-bezier(.2,.8,.2,1)}
+.reveal.in{opacity:1;transform:none}
+.reveal.d1{transition-delay:.1s}.reveal.d2{transition-delay:.2s}.reveal.d3{transition-delay:.3s}
+
+
+/* logo + language switch */
+.logo{display:inline-flex;align-items:center;gap:10px}
+.logo .mark{display:block;overflow:visible}
+.logo .bl,.logo .br{transition:transform .35s cubic-bezier(.2,.8,.2,1)}
+.logo:hover .bl{transform:translateX(-2.5px)}
+.logo:hover .br{transform:translateX(2.5px)}
+.logo i{font-style:normal;color:var(--teal)}
+.nav-right{display:flex;align-items:center;gap:14px}
+.lang{position:relative;display:inline-grid;grid-template-columns:1fr 1fr;align-items:center;min-height:38px;padding:3px;border:1.5px solid var(--line);border-radius:999px;background:var(--panel);font:600 13px/1 "IBM Plex Sans",sans-serif;color:var(--ink-2);cursor:pointer}
+.lang span{position:relative;z-index:1;padding:8px 10px;transition:color .25s}
+.lang::before{content:"";position:absolute;top:3px;bottom:3px;left:3px;width:calc(50% - 3px);border-radius:999px;background:var(--ink);transition:transform .3s cubic-bezier(.2,.8,.2,1)}
+.lang[data-lang="es"]::before{transform:translateX(100%)}
+.lang[data-lang="en"] span[data-l="en"],.lang[data-lang="es"] span[data-l="es"]{color:#fff}
+.lang:hover{border-color:var(--ink-2)}
+
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  .reveal,.hero .lead,.hero .links,.console{opacity:1!important;transform:none!important;translate:none!important}
+  .facts div::before{transform:none}
+}
+</style>
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<a class="skip" href="#main" data-i18n="skip">Skip to content</a>
+
+<header>
+  <nav class="wrap nav" aria-label="Main">
+    <a class="logo" href="#top" aria-label="Iván Mora, home">
+      <svg class="mark" viewBox="0 0 64 64" width="34" height="34" aria-hidden="true"><rect width="64" height="64" rx="15" fill="#14233B"/><g fill="none" stroke="#63D2C1" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"><path class="bl" d="M16 15H10v34h6"/><path class="br" d="M48 15h6v34h-6"/></g><g fill="none" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 22v20"/><path d="M29 42V22l7.5 11L44 22v20"/></g></svg>
+      <span>Iván Mora</span>
+    </a>
+    <div class="nav-right">
+      <ul>
+        <li><a href="#about" data-i18n="nav.about">About</a></li>
+        <li><a href="#projects" data-i18n="nav.projects">Projects</a></li>
+        <li><a href="#activity" data-i18n="nav.activity">Activity</a></li>
+        <li><a href="#skills" data-i18n="nav.skills">Skills</a></li>
+        <li><a href="#contact" data-i18n="nav.contact">Contact</a></li>
+      </ul>
+      <button class="lang" id="lang" type="button" aria-label="Cambiar a español">
+        <span data-l="en">EN</span><span data-l="es">ES</span>
+      </button>
+    </div>
+  </nav>
+</header>
+
+<main id="main">
+  <div class="hero-band" id="top">
+    <canvas id="net" aria-hidden="true"></canvas>
+    <div class="wrap hero">
+      <div>
+        <h1 class="decrypt" data-text="Iván Mora Gómez">Iván Mora Gómez</h1>
+        <p class="lead" data-i18n="hero.lead">Cybersecurity and AI student at the University of Málaga. I'm interested in cloud security, using AI to detect threats, and keeping AI systems themselves safe.</p>
+        <div class="links">
+          <a class="btn primary magnetic" href="https://www.linkedin.com/in/ivan-mora-gomez/" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9.5h4V21H3zM9.5 9.5h3.8v1.6h.06c.53-1 1.83-2.06 3.77-2.06 4.03 0 4.77 2.65 4.77 6.1V21h-4v-5.1c0-1.22-.02-2.8-1.7-2.8-1.71 0-1.97 1.33-1.97 2.7V21h-4z"/></svg>
+            LinkedIn
+          </a>
+                <a class="btn magnetic" href="https://github.com/ivanmora17" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.52-1.33-1.28-1.69-1.28-1.69-1.04-.71.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.76 2.7 1.25 3.36.96.1-.75.4-1.25.73-1.54-2.56-.29-5.25-1.28-5.25-5.69 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.78 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.42-2.7 5.4-5.27 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5z"/></svg>
+            GitHub
+          </a>
+          <a class="btn magnetic" href="#contact" data-i18n="hero.contact">Contact me</a>
+        </div>
+      </div>
+
+      <div class="console-wrap">
+        <div class="console" id="console" role="img" data-i18n-label="console.label" aria-label="A security alert queue that summarizes Iván: final project on LLM triage for SOCs in progress, fourth year of the Cybersecurity and AI degree, focus on cloud and AI security, based in Málaga and open to internships.">
+          <div class="console-top" aria-hidden="true"><b><i class="live"></i>triage-queue</b><span id="count">0 alerts</span></div>
+          <div class="queue" id="queue" aria-hidden="true"></div>
+          <div class="verdict" id="verdict" aria-hidden="true"></div>
+        </div>
+      </div>
+    </div>
+    <div class="scroll-hint" aria-hidden="true"></div>
+  </div>
+
+  <section id="about">
+    <div class="wrap sec-head">
+      <div>
+        <div class="sticky">
+          <h2 class="decrypt" data-i18n="h.about" data-text="About">About</h2>
+          <!-- Tu foto: foto.jpg (vertical, 2:3) -->
+          <div class="photo reveal"><img src="foto.jpg" alt="Iván Mora Gómez" width="600" height="900" onerror="this.parentElement.classList.add('missing')"></div>
+        </div>
+      </div>
+      <div class="prose">
+        <p class="reveal" data-i18n="about.p1">I'm in the fourth year of the Cybersecurity and Artificial Intelligence degree at the University of Málaga, part of the program's first cohort. During the degree I've worked on pentesting, malware analysis, digital forensics, deep learning, virtualized systems and incident management.</p>
+        <p class="reveal d1" data-i18n="about.p2">I prefer going deep into a few topics rather than skimming many. Right now that means security operations and how language models can help analysts deal with the flood of alerts they get every day.</p>
+        <dl class="facts reveal d2" id="facts">
+          <div><dt data-i18n="f.study">Studying</dt><dd data-i18n="f.study.v">BSc Cybersecurity &amp; AI, UMA</dd></div>
+          <div><dt data-i18n="f.int">Interests</dt><dd data-i18n="f.int.v">Cloud security, AI security, SOC</dd></div>
+          <div><dt data-i18n="f.lang">Languages</dt><dd data-i18n="f.lang.v">Spanish, English (B2), French (basic)</dd></div>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <section id="projects">
+    <div class="wrap sec-head">
+      <div><h2 class="decrypt sticky" data-i18n="h.projects" data-text="Projects">Projects</h2></div>
+      <div class="projects">
+        <article class="project reveal">
+          <div>
+            <h3 data-i18n="p1.t">LLM triage for Security Operations Centers</h3>
+            <p data-i18n="p1.d">My final degree project: a system that uses large language models to help SOC analysts sort, prioritize and handle security alerts, and an honest look at whether it's worth it.</p>
+            <ul class="tags"><li>LLM</li><li>SOC</li><li>SIEM</li><li>Python</li></ul>
+          </div>
+          <span class="status wip" data-i18n="st.wip">In progress</span>
+        </article>
+
+        <!--
+          PLANTILLA PARA AÑADIR UN PROYECTO NUEVO: copia este bloque, quita los comentarios y rellénalo.
+          Pon el texto en inglés en el HTML y el español en el atributo data-es.
+          Usa class="status done" para proyectos terminados.
+
+        <article class="project reveal">
+          <div>
+            <h3 data-es="Nombre en español">Project name</h3>
+            <p data-es="Una o dos frases en español.">One or two sentences about what it does and what you learned.</p>
+            <ul class="tags"><li>Python</li><li>Malware</li></ul>
+            <a href="https://github.com/ivanmora17/repo" data-es="Ver en GitHub">View on GitHub</a>
+          </div>
+          <span class="status done" data-i18n="st.done">Done</span>
+        </article>
+        -->
+
+        <p class="empty reveal d1" data-i18n="p.empty">More projects and small tools are on the way. Meanwhile, my code lives on <a href="https://github.com/ivanmora17" target="_blank" rel="noopener">GitHub</a>.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="activity">
+    <div class="wrap sec-head">
+      <div><h2 class="decrypt sticky" data-i18n="h.activity" data-text="Activity">Activity</h2></div>
+      <ol class="timeline" id="timeline" reversed>
+        <li class="fill" aria-hidden="true"></li>
+        <li>
+          <time datetime="2025-10" data-i18n="a2.when">Oct 2025</time>
+          <h3 data-i18n="a2.t">Volunteer at BiznagaFest</h3>
+          <p data-i18n="a2.d">Helped run one of the main tech events on the Costa del Sol, with over 700 attendees: attendee support, access control and on-site technical help.</p>
+        </li>
+        <li>
+          <time datetime="2025">2025</time>
+          <h3>IBM Quantum Qiskit Fall Fest</h3>
+          <p data-i18n="a3.d">Hands-on introduction to quantum computing with Qiskit at the University of Málaga.</p>
+        </li>
+        <li>
+          <time datetime="2023-09" data-i18n="a4.when">Sep 2023</time>
+          <h3 data-i18n="a4.t">Started the Cybersecurity &amp; AI degree</h3>
+          <p data-i18n="a4.d">First cohort of the program at the University of Málaga. Expected to finish in June 2027.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <section id="skills">
+    <div class="wrap sec-head">
+      <div><h2 class="decrypt sticky" data-i18n="h.skills" data-text="Skills">Skills</h2></div>
+      <div class="skillgroups">
+        <div class="reveal">
+          <h3 data-i18n="s.sec">Security</h3>
+          <ul><li data-i18n="s1">Threat detection</li><li data-i18n="s2">Incident response</li><li data-i18n="s3">Malware analysis</li><li data-i18n="s4">Penetration testing</li><li data-i18n="s5">Digital forensics</li></ul>
+        </div>
+        <div class="reveal d1">
+          <h3 data-i18n="s.ai">AI</h3>
+          <ul><li data-i18n="s6">AI security</li><li data-i18n="s7">Large language models</li><li data-i18n="s8">Machine learning</li><li data-i18n="s9">Deep learning</li><li data-i18n="s10">Data analysis</li></ul>
+        </div>
+        <div class="reveal d2">
+          <h3 data-i18n="s.code">Code</h3>
+          <ul><li>Python</li><li>C</li><li>SQL</li><li data-i18n="s11">Web development</li></ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="contact">
+    <canvas id="net2" aria-hidden="true"></canvas>
+    <div class="wrap">
+      <h2 class="decrypt" data-i18n="h.contact" data-text="Let's talk.">Let's talk.</h2>
+      <p class="reveal" data-i18n="c.p">I'm looking for internships, research projects and teams working on security and AI. Write to me and I'll get back to you.</p>
+      <div class="links reveal d1">
+        <a class="btn primary magnetic" href="mailto:ivan.moragomez05@gmail.com">ivan.moragomez05@gmail.com</a>
+        <a class="btn magnetic" href="https://www.linkedin.com/in/ivan-mora-gomez/" target="_blank" rel="noopener">LinkedIn</a>
+        <a class="btn magnetic" href="https://github.com/ivanmora17" target="_blank" rel="noopener">GitHub</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap"><span>© 2026 Iván Mora Gómez</span><span data-i18n="foot">Málaga, Spain</span></div>
+</footer>
+
+<script>
+(() => {
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const fine = matchMedia('(pointer: fine)').matches;
+
+  /* ---------- translations (English lives in the HTML) ---------- */
+  const ES = {
+    'skip': 'Saltar al contenido',
+    'nav.about': 'Sobre mí', 'nav.projects': 'Proyectos', 'nav.activity': 'Actividad', 'nav.skills': 'Aptitudes', 'nav.contact': 'Contacto',
+    'hero.lead': 'Estudiante de Ciberseguridad e Inteligencia Artificial en la Universidad de Málaga. Me interesa la seguridad cloud, usar la IA para detectar amenazas y proteger los propios sistemas de IA.',
+    'hero.contact': 'Contáctame',
+    'console.label': 'Una cola de alertas de seguridad que resume a Iván: TFG sobre triaje con LLM para SOC en curso, cuarto curso del Grado en Ciberseguridad e IA, interés en seguridad cloud y en IA, en Málaga y abierto a prácticas.',
+    'h.about': 'Sobre mí', 'h.projects': 'Proyectos', 'h.activity': 'Actividad', 'h.skills': 'Aptitudes', 'h.contact': 'Hablemos.',
+    'about.p1': 'Estudio cuarto del Grado en Ciberseguridad e Inteligencia Artificial en la Universidad de Málaga, en la primera promoción. Durante la carrera he trabajado en pentesting, análisis de malware, informática forense, aprendizaje profundo, sistemas virtualizados y gestión de incidentes.',
+    'about.p2': 'Prefiero profundizar en pocos temas antes que tocar muchos por encima. Ahora mismo eso significa operaciones de seguridad y cómo los modelos de lenguaje pueden ayudar a los analistas con la avalancha de alertas que reciben cada día.',
+    'f.study': 'Estudios', 'f.study.v': 'Grado en Ciberseguridad e IA, UMA',
+    'f.int': 'Intereses', 'f.int.v': 'Seguridad cloud, seguridad en IA, SOC',
+    'f.lang': 'Idiomas', 'f.lang.v': 'Español, inglés (B2), francés (básico)',
+    'p1.t': 'Triaje con LLM para Centros de Operaciones de Seguridad',
+    'p1.d': 'Mi Trabajo Fin de Grado: un sistema que usa modelos de lenguaje para ayudar a los analistas de un SOC a clasificar, priorizar y gestionar alertas de seguridad, y un análisis honesto de si merece la pena.',
+    'st.wip': 'En curso', 'st.done': 'Terminado',
+    'p.empty': 'Pronto habrá más proyectos y pequeñas herramientas. Mientras tanto, mi código está en <a href="https://github.com/ivanmora17" target="_blank" rel="noopener">GitHub</a>.',
+    'a2.when': 'oct 2025', 'a2.t': 'Voluntario en BiznagaFest',
+    'a2.d': 'Ayudé a organizar uno de los principales eventos tecnológicos de la Costa del Sol, con más de 700 asistentes: atención al público, control de accesos y soporte técnico.',
+    'a3.d': 'Introducción práctica a la computación cuántica con Qiskit en la Universidad de Málaga.',
+    'a4.when': 'sept 2023', 'a4.t': 'Empecé el Grado en Ciberseguridad e IA',
+    'a4.d': 'Primera promoción del grado en la Universidad de Málaga. Termino previsiblemente en junio de 2027.',
+    's.sec': 'Seguridad', 's.ai': 'IA', 's.code': 'Código',
+    's1': 'Detección de amenazas', 's2': 'Respuesta a incidentes', 's3': 'Análisis de malware', 's4': 'Pruebas de penetración', 's5': 'Informática forense',
+    's6': 'Seguridad en IA', 's7': 'Modelos de lenguaje (LLM)', 's8': 'Aprendizaje automático', 's9': 'Aprendizaje profundo', 's10': 'Análisis de datos', 's11': 'Desarrollo web',
+    'c.p': 'Busco prácticas, proyectos de investigación y equipos que trabajen en seguridad e IA. Escríbeme y te respondo.',
+    'foot': 'Málaga, España'
+  };
+  const META = {
+    en: { title: 'Iván Mora Gómez · Cybersecurity & AI', desc: 'Iván Mora Gómez, Cybersecurity and AI student at the University of Málaga. Cloud security, AI security and security operations.', btn: 'Cambiar a español', alerts: n => `${n} alert${n === 1 ? '' : 's'}`, verdict: 'triage complete', analyzing: 'analyzing new alert…' },
+    es: { title: 'Iván Mora Gómez · Ciberseguridad e IA', desc: 'Iván Mora Gómez, estudiante de Ciberseguridad e IA en la Universidad de Málaga. Seguridad cloud, seguridad en IA y operaciones de seguridad.', btn: 'Switch to English', alerts: n => `${n} alerta${n === 1 ? '' : 's'}`, verdict: 'triaje completado', analyzing: 'analizando nueva alerta…' }
+  };
+  const i18nEls = [...document.querySelectorAll('[data-i18n], [data-es]')];
+  i18nEls.forEach(el => { el.dataset.en = el.innerHTML; });
+  const altEls = [...document.querySelectorAll('[data-i18n-alt]')];
+  altEls.forEach(el => { el.dataset.enAlt = el.alt; });
+  const labelEls = [...document.querySelectorAll('[data-i18n-label]')];
+  labelEls.forEach(el => { el.dataset.enLabel = el.getAttribute('aria-label'); });
+  let lang = 'en';
+  try { lang = localStorage.getItem('lang') || ''; } catch (e) { lang = ''; }
+  if (lang !== 'en' && lang !== 'es') lang = (navigator.language || 'en').toLowerCase().startsWith('es') ? 'es' : 'en';
+
+  /* ---------- decrypt text effect ---------- */
+  const glyphs = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#$%&*<>/{}=+';
+  function decrypt(el, dur = 1100) {
+    const text = el.dataset.text;
+    el.setAttribute('aria-label', text);
+    if (reduce) { el.textContent = text; return; }
+    const start = performance.now();
+    const run = el._run = {};
+    (function tick(now) {
+      if (el._run !== run) return;
+      const t = Math.min(1, (now - start) / dur);
+      const solved = Math.floor(t * text.length);
+      let out = '';
+      for (let i = 0; i < text.length; i++) {
+        const c = text[i];
+        out += (i < solved || c === ' ') ? c : glyphs[(Math.random() * glyphs.length) | 0];
+      }
+      el.textContent = out;
+      if (t < 1) requestAnimationFrame(tick); else el.textContent = text;
+    })(start);
+  }
+
+  /* ---------- console data ---------- */
+  const queue = document.getElementById('queue');
+  const count = document.getElementById('count');
+  const verdict = document.getElementById('verdict');
+  const SEV = { hi: 'HIGH', md: 'MED', lo: 'INFO' };
+  const initial = [
+    { s: 'hi', en: ['Final project in progress', 'LLM-based triage system for SOCs'], es: ['TFG en curso', 'sistema de triaje con LLM para SOC'] },
+    { s: 'md', en: ['Focus areas detected', 'cloud security · AI security'], es: ['Áreas de interés detectadas', 'seguridad cloud · seguridad en IA'] },
+    { s: 'md', en: ['4th year, first cohort', 'BSc Cybersecurity & AI · UMA'], es: ['4º curso, primera promoción', 'Grado en Ciberseguridad e IA · UMA'] },
+    { s: 'lo', en: ['Location', 'Málaga, Spain · remote ok'], es: ['Ubicación', 'Málaga, España · también en remoto'] },
+    { s: 'lo', en: ['Status', 'open to internships and projects'], es: ['Estado', 'abierto a prácticas y proyectos'] }
+  ];
+  const extra = [
+    { s: 'lo', en: ['New visitor detected', 'welcome to ivanmorag.com'], es: ['Nueva visita detectada', 'bienvenido a ivanmorag.com'] },
+    { s: 'lo', en: ['Volunteer experience', 'BiznagaFest 2025 · 700+ attendees'], es: ['Voluntariado', 'BiznagaFest 2025 · más de 700 asistentes'] },
+    { s: 'lo', en: ['Languages', 'Spanish · English B2 · French basic'], es: ['Idiomas', 'español · inglés B2 · francés básico'] },
+    { s: 'lo', en: ['Side quest', 'IBM Quantum Qiskit Fall Fest 2025'], es: ['Misión secundaria', 'IBM Quantum Qiskit Fall Fest 2025'] }
+  ];
+  let total = 0, verdictKey = '';
+  function fillRow(row) { const [t, d] = row._item[lang]; row._t.textContent = t; row._d.textContent = d; }
+  function makeRow(item) {
+    const row = document.createElement('div');
+    row.className = 'alert';
+    const s = document.createElement('span'); s.className = 'sev pending';
+    const body = document.createElement('div');
+    row._t = document.createElement('strong');
+    row._d = document.createElement('span'); row._d.className = 'd';
+    body.append(row._t, row._d); row.append(s, body);
+    row._item = item; fillRow(row);
+    row._classify = () => { s.classList.remove('pending'); s.classList.add(item.s, 'pop'); s.textContent = SEV[item.s]; };
+    return row;
+  }
+  let typer;
+  function typeVerdict(key) {
+    verdictKey = key;
+    const text = META[lang][key];
+    clearInterval(typer);
+    if (reduce) { verdict.textContent = text; return; }
+    verdict.textContent = '';
+    let i = 0;
+    typer = setInterval(() => { verdict.textContent = text.slice(0, ++i); if (i >= text.length) clearInterval(typer); }, 38);
+  }
+  function setCount() { count.textContent = META[lang].alerts(total); }
+
+  /* ---------- apply language ---------- */
+  const langBtn = document.getElementById('lang');
+  function applyLang(animate) {
+    document.documentElement.lang = lang;
+    document.title = META[lang].title;
+    document.querySelector('meta[name="description"]').setAttribute('content', META[lang].desc);
+    i18nEls.forEach(el => {
+      const es = el.dataset.i18n ? ES[el.dataset.i18n] : el.dataset.es;
+      const html = lang === 'es' && es != null ? es : el.dataset.en;
+      if (el.classList.contains('decrypt')) {
+        const tmp = document.createElement('div'); tmp.innerHTML = html;
+        el.dataset.text = tmp.textContent;
+        if (animate && el.dataset.done) decrypt(el, 700); else el.textContent = el.dataset.text;
+      } else el.innerHTML = html;
+    });
+    altEls.forEach(el => { el.alt = lang === 'es' ? ES[el.dataset.i18nAlt] : el.dataset.enAlt; });
+    labelEls.forEach(el => el.setAttribute('aria-label', lang === 'es' ? ES[el.dataset.i18nLabel] : el.dataset.enLabel));
+    langBtn.dataset.lang = lang;
+    langBtn.setAttribute('aria-label', META[lang].btn);
+    queue.querySelectorAll('.alert').forEach(fillRow);
+    setCount();
+    if (verdictKey) typeVerdict(verdictKey);
+  }
+  langBtn.addEventListener('click', () => {
+    lang = lang === 'en' ? 'es' : 'en';
+    try { localStorage.setItem('lang', lang); } catch (e) {}
+    applyLang(true);
+  });
+  applyLang(false);
+
+  /* ---------- hero entrance ---------- */
+  const hero = document.querySelector('.hero');
+  const h1 = hero.querySelector('h1');
+  requestAnimationFrame(() => { hero.classList.add('ready'); decrypt(h1, 1400); });
+
+  /* ---------- reveal on scroll ---------- */
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      const el = e.target;
+      el.classList.add('in');
+      if (el.classList.contains('decrypt') && !el.dataset.done) { el.dataset.done = 1; decrypt(el, 800); }
+      io.unobserve(el);
+    });
+  }, { threshold: 0.18, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.reveal, section .decrypt').forEach(el => io.observe(el));
+
+  /* ---------- scroll progress, timeline, active nav ---------- */
+  const bar = document.querySelector('.progress');
+  const tl = document.getElementById('timeline');
+  const fill = tl.querySelector('.fill');
+  const items = [...tl.querySelectorAll('li:not(.fill)')];
+  const navLinks = [...document.querySelectorAll('.nav ul a')];
+  const sections = navLinks.map(a => document.querySelector(a.getAttribute('href')));
+  function onScroll() {
+    const h = document.documentElement;
+    bar.style.transform = `scaleX(${h.scrollTop / (h.scrollHeight - h.clientHeight || 1)})`;
+    const r = tl.getBoundingClientRect();
+    const mark = innerHeight * 0.65;
+    fill.style.setProperty('--p', Math.max(0, Math.min(1, (mark - r.top) / r.height)));
+    items.forEach(li => li.classList.toggle('lit', li.getBoundingClientRect().top + 10 < mark));
+    let cur = -1;
+    sections.forEach((s, i) => { if (s && s.getBoundingClientRect().top < 140) cur = i; });
+    navLinks.forEach((a, i) => a.classList.toggle('active', i === cur));
+  }
+  addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  /* ---------- live triage console ---------- */
+  if (reduce) {
+    initial.forEach(a => { const r = makeRow(a); queue.append(r); r._classify(); total++; });
+    setCount(); typeVerdict('verdict');
+  } else {
+    const t0 = 900, step = 420;
+    initial.forEach((a, i) => {
+      setTimeout(() => { const r = makeRow(a); queue.append(r); total++; setCount(); setTimeout(r._classify, 520); }, t0 + i * step);
+    });
+    setTimeout(() => typeVerdict('verdict'), t0 + initial.length * step + 700);
+    let k = 0;
+    setTimeout(function stream() {
+      if (!document.hidden) {
+        const rows = queue.querySelectorAll('.alert:not(.out)');
+        const last = rows[rows.length - 1];
+        if (rows.length >= 5 && last) { last.classList.add('out'); setTimeout(() => last.remove(), 400); }
+        const r = makeRow(extra[k++ % extra.length]);
+        queue.prepend(r); total++; setCount();
+        setTimeout(r._classify, 700);
+        typeVerdict('analyzing');
+        setTimeout(() => typeVerdict('verdict'), 1400);
+      }
+      setTimeout(stream, 6500);
+    }, t0 + initial.length * step + 5000);
+  }
+
+  /* ---------- 3D tilt on the console ---------- */
+  const consoleEl = document.getElementById('console');
+  if (fine && !reduce) {
+    consoleEl.addEventListener('pointermove', e => {
+      const r = consoleEl.getBoundingClientRect();
+      const x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5;
+      consoleEl.style.transform = `rotateY(${x * 8}deg) rotateX(${-y * 8}deg)`;
+    });
+    consoleEl.addEventListener('pointerleave', () => consoleEl.style.transform = '');
+  }
+
+  /* ---------- spotlight on project cards ---------- */
+  document.querySelectorAll('.project').forEach(card => {
+    card.addEventListener('pointermove', e => {
+      const r = card.getBoundingClientRect();
+      card.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+      card.style.setProperty('--my', (e.clientY - r.top) + 'px');
+    });
+  });
+
+  /* ---------- magnetic buttons ---------- */
+  if (fine && !reduce) {
+    document.querySelectorAll('.magnetic').forEach(b => {
+      b.addEventListener('pointermove', e => {
+        const r = b.getBoundingClientRect();
+        b.style.transform = `translate(${(e.clientX - r.left - r.width / 2) * .18}px, ${(e.clientY - r.top - r.height / 2) * .3}px)`;
+      });
+      b.addEventListener('pointerleave', () => b.style.transform = '');
+    });
+  }
+
+  /* ---------- node network background ---------- */
+  function network(canvas, opts) {
+    if (reduce) return;
+    const ctx = canvas.getContext('2d');
+    const host = canvas.parentElement;
+    let w, h, dpr, nodes = [], mouse = { x: -9999, y: -9999 }, visible = true;
+    function size() {
+      dpr = Math.min(devicePixelRatio || 1, 2);
+      w = host.clientWidth; h = host.clientHeight;
+      canvas.width = w * dpr; canvas.height = h * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      const n = Math.round(Math.min(90, (w * h) / 16000));
+      nodes = Array.from({ length: n }, () => ({
+        x: Math.random() * w, y: Math.random() * h,
+        vx: (Math.random() - .5) * .35, vy: (Math.random() - .5) * .35,
+        r: Math.random() * 1.6 + 1
+      }));
+    }
+    size(); addEventListener('resize', size);
+    host.addEventListener('pointermove', e => { const r = canvas.getBoundingClientRect(); mouse.x = e.clientX - r.left; mouse.y = e.clientY - r.top; });
+    host.addEventListener('pointerleave', () => { mouse.x = mouse.y = -9999; });
+    new IntersectionObserver(([e]) => visible = e.isIntersecting).observe(host);
+    const D = 130;
+    (function frame() {
+      requestAnimationFrame(frame);
+      if (!visible || document.hidden) return;
+      ctx.clearRect(0, 0, w, h);
+      for (const n of nodes) {
+        const dx = mouse.x - n.x, dy = mouse.y - n.y, dist = Math.hypot(dx, dy);
+        if (dist < 180 && dist > 0) { n.vx += dx / dist * .02; n.vy += dy / dist * .02; }
+        n.vx *= .985; n.vy *= .985;
+        if (Math.abs(n.vx) < .08) n.vx += (Math.random() - .5) * .05;
+        if (Math.abs(n.vy) < .08) n.vy += (Math.random() - .5) * .05;
+        n.x += n.vx; n.y += n.vy;
+        if (n.x < 0 || n.x > w) n.vx *= -1;
+        if (n.y < 0 || n.y > h) n.vy *= -1;
+      }
+      for (let i = 0; i < nodes.length; i++) {
+        const a = nodes[i];
+        for (let j = i + 1; j < nodes.length; j++) {
+          const b = nodes[j], d = Math.hypot(a.x - b.x, a.y - b.y);
+          if (d < D) {
+            ctx.strokeStyle = `rgba(${opts.rgb},${(1 - d / D) * opts.line})`;
+            ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
+          }
+        }
+        const md = Math.hypot(a.x - mouse.x, a.y - mouse.y);
+        if (md < 180) {
+          ctx.strokeStyle = `rgba(${opts.rgb},${(1 - md / 180) * opts.line * 1.6})`;
+          ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(mouse.x, mouse.y); ctx.stroke();
+        }
+        ctx.fillStyle = `rgba(${opts.rgb},${opts.dot})`;
+        ctx.beginPath(); ctx.arc(a.x, a.y, a.r, 0, Math.PI * 2); ctx.fill();
+      }
+    })();
+  }
+  network(document.getElementById('net'), { rgb: '15,127,114', line: .22, dot: .45 });
+  network(document.getElementById('net2'), { rgb: '99,210,193', line: .25, dot: .6 });
+})();
+</script>
+</body>
+</html>
