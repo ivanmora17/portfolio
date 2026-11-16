@@ -164,6 +164,35 @@ h3{font:600 20px/1.3 "IBM Plex Sans",sans-serif;margin:0 0 6px}
 .shot:hover img{transform:scale(1.015)}
 .shot figcaption{margin-top:8px;font-size:14px;color:var(--ink-2)}
 
+/* award entry */
+.timeline li.award::before{width:16px;height:16px;left:-7px;top:5px}
+.timeline li.award.lit::before{border-color:var(--amber);background:var(--console-amber);box-shadow:0 0 0 6px var(--amber-soft)}
+.award-card{margin-top:10px;background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:26px;box-shadow:0 26px 44px -34px rgba(20,35,59,.45)}
+.award-top{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-bottom:12px}
+.prize{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:600;padding:5px 12px;border-radius:999px;background:var(--amber-soft);color:var(--amber)}
+.prize svg{width:15px;height:15px}
+.award-card h3{font:700 26px/1.15 "Bricolage Grotesque",sans-serif;letter-spacing:-.4px;margin:0 0 10px}
+.award-card p{margin:0 0 12px;color:var(--ink-2);max-width:62ch}
+.award-links{display:flex;flex-wrap:wrap;gap:10px;margin:4px 0 0}
+.award-links .btn{min-height:42px;padding:0 18px;font-size:14px}
+.award-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:18px 0 22px;padding:0;list-style:none}
+.timeline .award-stats li{padding:12px 14px;border-radius:12px;background:var(--paper)}
+.timeline .award-stats li::before{display:none}
+.award-stats b{display:block;font:700 22px/1.1 "Bricolage Grotesque",sans-serif;color:var(--ink)}
+.award-stats span{font-size:13px;color:var(--ink-2)}
+.gallery{display:grid;grid-template-columns:minmax(0,1.65fr) minmax(0,1fr);gap:12px;margin:0}
+.gallery button{display:block;position:relative;padding:0;border:0;border-radius:14px;overflow:hidden;cursor:zoom-in;background:var(--console);aspect-ratio:4/3}
+.gallery button.tall{aspect-ratio:auto;min-height:100%}
+.gallery button.tall img{position:absolute;inset:0}
+.gallery img{display:block;width:100%;height:100%;object-fit:cover;transition:transform .6s cubic-bezier(.2,.8,.2,1)}
+.gallery button:hover img{transform:scale(1.04)}
+.gallery figcaption{grid-column:1/-1;font-size:14px;color:var(--ink-2)}
+@media (max-width:560px){.award-card{padding:20px}.award-stats{gap:8px}.timeline .award-stats li{padding:10px}.award-stats b{font-size:19px}.award-stats span{font-size:12px}.gallery{grid-template-columns:1fr}.gallery button.tall{aspect-ratio:4/3}}
+.lightbox{padding:0;border:0;background:transparent;max-width:min(94vw,1400px);max-height:92vh}
+.lightbox::backdrop{background:rgba(10,18,32,.86)}
+.lightbox img{display:block;max-width:100%;max-height:92vh;border-radius:12px}
+.lightbox button{position:absolute;top:10px;right:10px;width:40px;height:40px;border-radius:50%;border:0;background:rgba(20,35,59,.8);color:#fff;font-size:22px;line-height:1;cursor:pointer}
+
 /* skills */
 .skillgroups{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:32px}
 .skillgroups h3{font-size:16px;color:var(--ink-2);font-weight:500;margin-bottom:10px}
@@ -331,6 +360,30 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
       <div><h2 class="decrypt sticky" data-i18n="h.activity" data-text="Activity">Activity</h2></div>
       <ol class="timeline" id="timeline" reversed>
         <li class="fill" aria-hidden="true"></li>
+        <li class="award">
+          <time datetime="2026-11" data-i18n="a1.when">Nov 2026</time>
+          <div class="award-card reveal">
+            <div class="award-top">
+              <span class="prize"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0z"/><path d="M17 5h3v2a3 3 0 0 1-3 3M7 5H4v2a3 3 0 0 0 3 3"/></svg><span data-i18n="a1.badge">2nd prize · €500</span></span>
+            </div>
+            <h3 data-i18n="a1.t">Second prize at Marbella Startup Lab</h3>
+            <p data-i18n="a1.d">Together with my team I built and pitched <strong>Cobijo</strong> at the 2nd edition of Marbella Startup Lab, the entrepreneurship program run by Marbellup and Marbella City Council, and won second place and a €500 prize.</p>
+            <p data-i18n="a1.d2">Cobijo is a long-term rental platform built around one idea: owners with empty flats don't rent them out for fear of unpaid rent, and tenants with jobs can't find a home because of the guarantees landlords demand. Owners get rent protection, legal defence and eviction handling for one month's rent a year; tenants move in with just the legal deposit and are shortlisted without their name, age, nationality or photo being shown. We presented it with a working prototype of the app.</p>
+            <div class="award-links">
+              <a class="btn primary" href="cobijo/" target="_blank" rel="noopener"><span data-i18n="a1.pitch">See the pitch and prototype</span> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
+            </div>
+            <ul class="award-stats">
+              <li><b data-i18n="a1.s1">2nd</b><span data-i18n="a1.s1l">place overall</span></li>
+              <li><b data-i18n="a1.s2">€500</b><span data-i18n="a1.s2l">prize</span></li>
+              <li><b>Cobijo</b><span data-i18n="a1.s3l">team project</span></li>
+            </ul>
+            <figure class="gallery">
+              <button type="button" data-full="startup-lab-premio.jpg" data-i18n-label="a1.zoom1" aria-label="Enlarge photo: team Cobijo with the second prize"><img src="startup-lab-premio.jpg" width="1600" height="1205" loading="lazy" style="object-position:50% 72%" data-i18n-alt="a1.alt1" alt="Team Cobijo holding the Marbella Startup Lab second prize board"></button>
+              <button type="button" class="tall" data-full="startup-lab-grupo.jpg" data-i18n-label="a1.zoom2" aria-label="Enlarge photo: all participants and winners"><img src="startup-lab-grupo.jpg" width="1200" height="1594" loading="lazy" style="object-position:50% 62%" data-i18n-alt="a1.alt2" alt="Group photo of all Marbella Startup Lab participants with the three winning teams"></button>
+              <figcaption data-i18n="a1.cap">Award ceremony, Marbella Startup Lab · 2nd edition.</figcaption>
+            </figure>
+          </div>
+        </li>
         <li>
           <time datetime="2025-10" data-i18n="a2.when">Oct 2025</time>
           <h3 data-i18n="a2.t">Volunteer at BiznagaFest</h3>
@@ -384,6 +437,8 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
   </section>
 </main>
 
+<dialog class="lightbox" id="lightbox"><img alt=""><button type="button" aria-label="Close">×</button></dialog>
+
 <footer>
   <div class="wrap"><span>© 2026 Iván Mora Gómez</span><span data-i18n="foot">Málaga, Spain</span></div>
 </footer>
@@ -409,6 +464,17 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
     'p1.d': 'Mi Trabajo Fin de Grado: un sistema que usa modelos de lenguaje para ayudar a los analistas de un SOC a clasificar, priorizar y gestionar alertas de seguridad, y un análisis honesto de si merece la pena.',
     'st.wip': 'En curso', 'st.done': 'Terminado',
     'p.empty': 'Pronto habrá más proyectos y pequeñas herramientas. Mientras tanto, mi código está en <a href="https://github.com/ivanmora17" target="_blank" rel="noopener">GitHub</a>.',
+    'a1.when': 'nov 2026', 'a1.badge': '2º premio · 500 €',
+    'a1.t': 'Segundo premio en el Marbella Startup Lab',
+    'a1.d': 'Con mi equipo desarrollé y presenté <strong>Cobijo</strong> en la 2ª edición del Marbella Startup Lab, el programa de emprendimiento de Marbellup y el Ayuntamiento de Marbella, y conseguimos el segundo puesto y un premio de 500 €.',
+    'a1.d2': 'Cobijo es una plataforma de alquiler de larga duración que parte de una idea: hay propietarios con pisos vacíos que no los alquilan por miedo a los impagos, e inquilinos con trabajo que no encuentran piso por las garantías que les piden. Al propietario le damos protección frente a impagos, defensa jurídica y gestión del desahucio por un mes de renta al año; el inquilino entra solo con la fianza legal y se le preselecciona sin mostrar su nombre, edad, nacionalidad ni foto. Lo presentamos con un prototipo funcional de la app.',
+    'a1.s1': '2º', 'a1.s2': '500 €','a1.s1l': 'puesto general', 'a1.s2l': 'de premio', 'a1.s3l': 'proyecto en equipo',
+    'a1.pitch': 'Ver el pitch y el prototipo',
+    'a1.cap': 'Entrega de premios, Marbella Startup Lab · 2ª edición.',
+    'a1.alt1': 'El equipo de Cobijo con el cartel del segundo premio del Marbella Startup Lab',
+    'a1.alt2': 'Foto de grupo con todos los participantes del Marbella Startup Lab y los tres equipos premiados',
+    'a1.zoom1': 'Ampliar foto: el equipo de Cobijo con el segundo premio',
+    'a1.zoom2': 'Ampliar foto: todos los participantes y ganadores',
     'a2.when': 'oct 2025', 'a2.t': 'Voluntario en BiznagaFest',
     'a2.d': 'Ayudé a organizar uno de los principales eventos tecnológicos de la Costa del Sol, con más de 700 asistentes: atención al público, control de accesos y soporte técnico.',
     'a3.d': 'Introducción práctica a la computación cuántica con Qiskit en la Universidad de Málaga.',
@@ -469,6 +535,7 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
     { s: 'lo', en: ['Status', 'open to internships and projects'], es: ['Estado', 'abierto a prácticas y proyectos'] }
   ];
   const extra = [
+    { s: 'hi', en: ['Award detected', '2nd prize · Marbella Startup Lab · €500'], es: ['Premio detectado', '2º premio · Marbella Startup Lab · 500 €'] },
     { s: 'lo', en: ['New visitor detected', 'welcome to ivanmorag.com'], es: ['Nueva visita detectada', 'bienvenido a ivanmorag.com'] },
     { s: 'lo', en: ['Volunteer experience', 'BiznagaFest 2025 · 700+ attendees'], es: ['Voluntariado', 'BiznagaFest 2025 · más de 700 asistentes'] },
     { s: 'lo', en: ['Languages', 'Spanish · English B2 · French basic'], es: ['Idiomas', 'español · inglés B2 · francés básico'] },
@@ -614,6 +681,16 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
     });
   });
 
+  /* ---------- photo lightbox ---------- */
+  const lb = document.getElementById('lightbox');
+  const lbImg = lb.querySelector('img');
+  document.querySelectorAll('.gallery button').forEach(b => b.addEventListener('click', () => {
+    lbImg.src = b.dataset.full; lbImg.alt = b.querySelector('img').alt;
+    if (lb.showModal) lb.showModal(); else window.open(b.dataset.full, '_blank');
+  }));
+  lb.querySelector('button').addEventListener('click', () => lb.close());
+  lb.addEventListener('click', e => { if (e.target === lb) lb.close(); });
+
   /* ---------- magnetic buttons ---------- */
   if (fine && !reduce) {
     document.querySelectorAll('.magnetic').forEach(b => {
@@ -687,4 +764,3 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
 </script>
 </body>
 </html>
-
