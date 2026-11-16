@@ -8,8 +8,53 @@
     <title>Cobijo · Alquila sin miedo</title>
     <script type="module" crossorigin src="./assets/index-C7efa_BI.js"></script>
     <link rel="stylesheet" crossorigin href="./assets/index-DyZpsOYe.css">
+    <style>
+      .deck-nav{position:fixed;right:max(16px,env(safe-area-inset-right));bottom:max(16px,env(safe-area-inset-bottom));z-index:9999;display:flex;align-items:center;gap:6px;padding:6px;border-radius:999px;background:rgba(31,27,23,.82);backdrop-filter:blur(8px);font:600 13px/1 system-ui,sans-serif;color:#fbf8f3;box-shadow:0 10px 30px -12px rgba(0,0,0,.5)}
+      .deck-nav button,.deck-nav a{display:inline-flex;align-items:center;justify-content:center;min-width:40px;height:40px;padding:0 12px;border:0;border-radius:999px;background:transparent;color:inherit;font:inherit;text-decoration:none;cursor:pointer}
+      .deck-nav button:hover,.deck-nav a:hover{background:rgba(251,248,243,.14)}
+      .deck-nav button:disabled{opacity:.35;cursor:default;background:transparent}
+      .deck-nav a{background:#c4532c}
+      .deck-nav a:hover{background:#d8653d}
+      .deck-nav span{min-width:38px;text-align:center;opacity:.8}
+    </style>
   </head>
   <body>
     <div id="root"></div>
+    <script>
+      // Botones y gestos para pasar diapositivas sin teclado (el pitch solo escucha las flechas).
+      (function () {
+        var TOTAL = 8;
+        var h = location.hash.slice(1);
+        if (h && !/^\d+$/.test(h)) return; // #demo, #inquilino, #propietario: no es el pitch
+        function key(k) { window.dispatchEvent(new KeyboardEvent('keydown', { key: k, bubbles: true })); }
+        function cur() { var n = parseInt(location.hash.slice(1), 10); return n >= 1 && n <= TOTAL ? n : 1; }
+        var nav = document.createElement('nav');
+        nav.className = 'deck-nav';
+        nav.setAttribute('aria-label', 'Navegación del pitch');
+        nav.innerHTML = '<button type="button" data-k="ArrowLeft" aria-label="Anterior">&#8592;</button>' +
+          '<span aria-live="polite"></span>' +
+          '<button type="button" data-k="ArrowRight" aria-label="Siguiente">&#8594;</button>' +
+          '<a href="#demo" aria-label="Abrir el prototipo interactivo">Probar demo</a>';
+        var label = nav.querySelector('span');
+        var prev = nav.querySelector('[data-k="ArrowLeft"]');
+        function update() { var n = cur(); label.textContent = n + '/' + TOTAL; prev.disabled = n === 1 && !location.hash; }
+        nav.addEventListener('click', function (e) {
+          var b = e.target.closest('button');
+          if (b) { key(b.dataset.k); setTimeout(update, 30); }
+        });
+        nav.querySelector('a').addEventListener('click', function (e) { e.preventDefault(); location.hash = 'demo'; location.reload(); });
+        // deslizar con el dedo
+        var x0 = null;
+        window.addEventListener('touchstart', function (e) { x0 = e.touches[0].clientX; }, { passive: true });
+        window.addEventListener('touchend', function (e) {
+          if (x0 === null) return;
+          var dx = e.changedTouches[0].clientX - x0; x0 = null;
+          if (Math.abs(dx) > 50) { key(dx < 0 ? 'ArrowRight' : 'ArrowLeft'); setTimeout(update, 30); }
+        }, { passive: true });
+        window.addEventListener('keydown', function () { setTimeout(update, 30); });
+        document.body.appendChild(nav);
+        update();
+      })();
+    </script>
   </body>
 </html>
